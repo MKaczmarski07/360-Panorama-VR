@@ -8,6 +8,9 @@ import { ThreeService } from '../three.service';
 })
 export class HomeComponent implements OnInit {
   constructor(public threeService: ThreeService) {}
+  alpha: number | null = 0;
+  beta: number | null = 0;
+  gamma: number | null = 0;
 
   ngOnInit() {
     this.threeService.createScene();

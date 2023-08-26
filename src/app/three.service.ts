@@ -8,6 +8,9 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 export class ThreeService {
   constructor() {}
 
+  // for testing purposes
+  AxisValue: number[] = [];
+
   createScene() {
     const scene = new THREE.Scene();
     console.log('scene', scene);
@@ -63,6 +66,33 @@ export class ThreeService {
 
     // set the camera's position in the scene
     camera.position.set(0, 0, 0);
+
+    // enable VR mode based on rotation of the device
+    if (window.DeviceOrientationEvent) {
+      window.addEventListener('deviceorientation', (event) => {
+        let alpha = event.alpha;
+        let beta = event.beta;
+        let gamma = event.gamma;
+        if (alpha && beta && gamma) {
+          // do rotation in y axis when the device is standing up
+
+          if (alpha > 180) {
+            alpha = alpha - 360;
+          }
+          sphere.rotation.y = -THREE.MathUtils.degToRad(alpha);
+
+          // for testing purposes
+          this.AxisValue = [
+            THREE.MathUtils.degToRad(alpha),
+            THREE.MathUtils.degToRad(beta),
+            -THREE.MathUtils.degToRad(gamma),
+          ];
+        }
+      });
+    }
+    // else {
+    //   alert('Your device does not support device orientation tracking');
+    // }
 
     // define the animation function
     function animate() {
