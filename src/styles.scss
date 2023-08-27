@@ -1,1 +1,43 @@
-/* You can add global styles to this file, and also import other style files */
+body,
+html {
+  min-height: 100vh;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: Calibre, Inter, "San Francisco", "SF Pro Text", -apple-system,
+    system-ui, sans-serif;
+}
+
+.sphere {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.back-btn {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  padding: 0.8rem;
+  background-color: #35324a;
+  border-radius: 5px;
+  color: #ccd6f6;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    background: #494467;
+    color: #ccd6f6;
+  }
+
+  svg {
+    height: 1.5rem;
+    width: 1.5rem;
+  }
+}

@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ThreeService {
+export class VrThreeService {
   constructor() {}
 
   createScene() {
@@ -27,7 +26,7 @@ export class ThreeService {
     renderer.setSize(window.innerWidth, window.innerHeight);
 
     // get the container element for the background
-    const backgroundContainer = document.querySelector('.basic-sphere');
+    const backgroundContainer = document.querySelector('.vr-sphere');
 
     if (backgroundContainer == null) return;
 
@@ -52,27 +51,38 @@ export class ThreeService {
 
     scene.add(sphere);
 
-    // create a new OrbitControls
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.target.set(-0.5, 0, -0.5);
-    controls.update();
-    controls.enablePan = false;
-    controls.enableDamping = true;
-    // invert the orbit controls direction
-    controls.rotateSpeed = -0.25;
-
     // set the camera's position in the scene
     camera.position.set(0, 0, 0);
+    // camera.rotation.set(Math.PI / 2, 0, 0);
 
-    // define the animation function
+    // enable VR mode based on DeviceOrientation API
+    if (window.DeviceOrientationEvent) {
+      window.addEventListener('deviceorientation', (event) => {
+        let alpha = event.alpha;
+        let beta = event.beta;
+        let gamma = event.gamma;
+        if (alpha && beta && gamma) {
+          if (beta >= 0 && beta <= 90) {
+            if (alpha > 180) {
+              alpha = alpha - 360;
+            }
+            // left/right rotation
+            sphere.rotation.y = -THREE.MathUtils.degToRad(alpha);
+            // up/down rotation
+            camera.rotation.set(
+              -Math.PI / 2 + THREE.MathUtils.degToRad(beta),
+              0,
+              0
+            );
+          }
+        }
+      });
+    }
+
     function animate() {
       // request the next frame of the animation
       requestAnimationFrame(animate);
-      // update the OrbitControls
-      controls.update();
-      // rotate the sphere a little each frame
-      sphere.rotation.y += 0.0005;
-      // render the scene with the camera and renderer
+
       renderer.render(scene, camera);
     }
 
