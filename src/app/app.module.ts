@@ -9,7 +9,6 @@ import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from './firebase-config';
 import { BasicComponent } from './home/basic/basic.component';
 import { VrComponent } from './home/vr/vr.component';
-
 const app = initializeApp(firebaseConfig);
 
 @NgModule({

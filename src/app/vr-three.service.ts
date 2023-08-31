@@ -7,9 +7,13 @@ import * as THREE from 'three';
 export class VrThreeService {
   constructor() {}
 
+  rotation: number[] = [];
+  alphaOffset: number = 0;
+
   createScene() {
     const scene = new THREE.Scene();
-    console.log('scene', scene);
+    const quaternion = new THREE.Quaternion();
+    const screenOrientation = window.orientation || 0;
 
     // create a new Three.js perspective camera
     const camera = new THREE.PerspectiveCamera(
@@ -53,31 +57,41 @@ export class VrThreeService {
 
     // set the camera's position in the scene
     camera.position.set(0, 0, 0);
-    // camera.rotation.set(Math.PI / 2, 0, 0);
+
+    const setOrientationQuaternion = function (
+      quaternion: THREE.Quaternion,
+      alpha: number,
+      beta: number,
+      gamma: number,
+      orient: number
+    ) {
+      const zee = new THREE.Vector3(0, 0, 1);
+      const euler = new THREE.Euler();
+      const q0 = new THREE.Quaternion();
+      const q1 = new THREE.Quaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5));
+
+      euler.set(beta, alpha, -gamma, 'YXZ');
+      quaternion.setFromEuler(euler);
+      quaternion.multiply(q1);
+      quaternion.multiply(q0.setFromAxisAngle(zee, -orient));
+    };
 
     // enable VR mode based on DeviceOrientation API
-    if (window.DeviceOrientationEvent) {
-      window.addEventListener('deviceorientation', (event) => {
-        let alpha = event.alpha;
-        let beta = event.beta;
-        let gamma = event.gamma;
-        if (alpha && beta && gamma) {
-          if (beta >= 0 && beta <= 90) {
-            if (alpha > 180) {
-              alpha = alpha - 360;
-            }
-            // left/right rotation
-            sphere.rotation.y = -THREE.MathUtils.degToRad(alpha);
-            // up/down rotation
-            camera.rotation.set(
-              -Math.PI / 2 + THREE.MathUtils.degToRad(beta),
-              0,
-              0
-            );
-          }
-        }
-      });
-    }
+    window.addEventListener('deviceorientation', (event) => {
+      const alpha = event.alpha
+        ? THREE.MathUtils.degToRad(event.alpha) + this.alphaOffset
+        : 0;
+      const beta = event.beta ? THREE.MathUtils.degToRad(event.beta) : 0;
+      const gamma = event.gamma ? THREE.MathUtils.degToRad(event.gamma) : 0;
+      const orient = screenOrientation
+        ? THREE.MathUtils.degToRad(screenOrientation)
+        : 0;
+
+      setOrientationQuaternion(quaternion, alpha, beta, gamma, orient);
+
+      // Apply the quaternion to your camera or object
+      camera.quaternion.copy(quaternion);
+    });
 
     function animate() {
       // request the next frame of the animation
