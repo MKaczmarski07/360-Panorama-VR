@@ -7,20 +7,22 @@ import * as THREE from 'three';
 export class VrThreeService {
   constructor() {}
 
-  rotation: number[] = [];
   alphaOffset: number = 0;
+  isLoading = true;
 
   createScene() {
     const scene = new THREE.Scene();
     const quaternion = new THREE.Quaternion();
     const screenOrientation = window.orientation || 0;
+    const loadingManager = new THREE.LoadingManager();
 
-    // create a new Three.js perspective camera
-    const camera = new THREE.PerspectiveCamera(
-      75, // field of view
-      window.innerWidth / window.innerHeight, // aspect ratio
-      0.1, // near plane
-      1000 // far plane
+    // load texture
+    loadingManager.onLoad = () => {
+      this.isLoading = false;
+    };
+    const textureLoader = new THREE.TextureLoader(loadingManager);
+    const texture = textureLoader.load(
+      '../../assets/images/oil_painting_van_gogh_starry_night.jfif'
     );
 
     // create a new Three.js renderer
@@ -36,28 +38,28 @@ export class VrThreeService {
 
     backgroundContainer.appendChild(renderer.domElement);
 
-    const loader = new THREE.TextureLoader();
-
-    const texture = loader.load(
-      '../../assets/images/oil_painting_van_gogh_starry_night.jfif'
-    );
+    // configure the sphere
 
     const geometry = new THREE.SphereGeometry(500, 60, 40);
-
     // invert the geometry to render it inside out
     geometry.scale(-1, 1, 1);
-
     const material = new THREE.MeshBasicMaterial({
       map: texture,
     });
-
     const sphere = new THREE.Mesh(geometry, material);
-
     scene.add(sphere);
 
+    // create a new Three.js perspective camera
+    const camera = new THREE.PerspectiveCamera(
+      75, // field of view
+      window.innerWidth / window.innerHeight, // aspect ratio
+      0.1, // near plane
+      1000 // far plane
+    );
     // set the camera's position in the scene
     camera.position.set(0, 0, 0);
 
+    // set quanterion to get correct 3D orientation
     const setOrientationQuaternion = function (
       quaternion: THREE.Quaternion,
       alpha: number,

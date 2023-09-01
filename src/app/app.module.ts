@@ -9,10 +9,17 @@ import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from './firebase-config';
 import { BasicComponent } from './home/basic/basic.component';
 import { VrComponent } from './home/vr/vr.component';
+import { LoaderComponent } from './home/loader/loader.component';
 const app = initializeApp(firebaseConfig);
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, BasicComponent, VrComponent],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    BasicComponent,
+    VrComponent,
+    LoaderComponent,
+  ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent],

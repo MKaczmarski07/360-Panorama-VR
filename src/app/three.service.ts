@@ -6,18 +6,21 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
   providedIn: 'root',
 })
 export class ThreeService {
+  isLoading = true;
+  progress = 0;
   constructor() {}
 
   createScene() {
     const scene = new THREE.Scene();
-    console.log('scene', scene);
+    const loadingManager = new THREE.LoadingManager();
 
-    // create a new Three.js perspective camera
-    const camera = new THREE.PerspectiveCamera(
-      75, // field of view
-      window.innerWidth / window.innerHeight, // aspect ratio
-      0.1, // near plane
-      1000 // far plane
+    // load texture
+    loadingManager.onLoad = () => {
+      this.isLoading = false;
+    };
+    const textureLoader = new THREE.TextureLoader(loadingManager);
+    const texture = textureLoader.load(
+      '../../assets/images/oil_painting_van_gogh_starry_night.jfif'
     );
 
     // create a new Three.js renderer
@@ -33,24 +36,26 @@ export class ThreeService {
 
     backgroundContainer.appendChild(renderer.domElement);
 
-    const loader = new THREE.TextureLoader();
-
-    const texture = loader.load(
-      '../../assets/images/oil_painting_van_gogh_starry_night.jfif'
-    );
+    // configure the sphere
 
     const geometry = new THREE.SphereGeometry(500, 60, 40);
-
     // invert the geometry to render it inside out
     geometry.scale(-1, 1, 1);
-
     const material = new THREE.MeshBasicMaterial({
       map: texture,
     });
-
     const sphere = new THREE.Mesh(geometry, material);
-
     scene.add(sphere);
+
+    // create a new Three.js perspective camera
+    const camera = new THREE.PerspectiveCamera(
+      75, // field of view
+      window.innerWidth / window.innerHeight, // aspect ratio
+      0.1, // near plane
+      1000 // far plane
+    );
+    // set the camera's position in the scene
+    camera.position.set(0, 0, 0);
 
     // create a new OrbitControls
     const controls = new OrbitControls(camera, renderer.domElement);
@@ -70,8 +75,7 @@ export class ThreeService {
       requestAnimationFrame(animate);
       // update the OrbitControls
       controls.update();
-      // rotate the sphere a little each frame
-      sphere.rotation.y += 0.0005;
+
       // render the scene with the camera and renderer
       renderer.render(scene, camera);
     }
