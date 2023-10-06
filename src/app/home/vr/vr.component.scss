@@ -1,0 +1,49 @@
+.sphere {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  cursor: move;
+}
+
+.btn {
+  padding: 0.8rem;
+  background-color: #35324ae2;
+  backdrop-filter: blur(10px);
+  border-radius: 5px;
+  color: #ccd6f6;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    background: #494467;
+    color: #ccd6f6;
+  }
+
+  svg {
+    height: 1.5rem;
+    width: 1.5rem;
+  }
+}
+
+.back-btn {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+}
+
+.controls {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}

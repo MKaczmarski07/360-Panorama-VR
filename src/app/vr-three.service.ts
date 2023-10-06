@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +10,8 @@ export class VrThreeService {
 
   alphaOffset: number = 0;
   isLoading = true;
+  orbitControlMode = true;
+  controls: OrbitControls | undefined;
 
   createScene() {
     const scene = new THREE.Scene();
@@ -22,7 +25,7 @@ export class VrThreeService {
     };
     const textureLoader = new THREE.TextureLoader(loadingManager);
     const texture = textureLoader.load(
-      '../../assets/images/oil_painting_van_gogh_starry_night.jfif'
+      '../../assets/images/oil_painting_van_gogh_starry_night.webp'
     );
 
     // create a new Three.js renderer
@@ -32,7 +35,7 @@ export class VrThreeService {
     renderer.setSize(window.innerWidth, window.innerHeight);
 
     // get the container element for the background
-    const backgroundContainer = document.querySelector('.vr-sphere');
+    const backgroundContainer = document.querySelector('.sphere');
 
     if (backgroundContainer == null) return;
 
@@ -58,6 +61,38 @@ export class VrThreeService {
     );
     // set the camera's position in the scene
     camera.position.set(0, 0, 0);
+
+    // create a new OrbitControls
+
+    const createControls = () => {
+      this.controls = new OrbitControls(camera, renderer.domElement);
+      this.controls.target.set(-0.5, 0, -0.5);
+      this.controls.update();
+      this.controls.enablePan = false;
+      this.controls.enableDamping = true;
+      // invert the orbit controls direction
+      this.controls.rotateSpeed = -0.25;
+    };
+    createControls();
+
+    const destroyControls = () => {
+      if (this.controls == null) return;
+      this.controls.dispose();
+      renderer.dispose();
+    };
+
+    const toggleControls = () => {
+      if (this.orbitControlMode) {
+        destroyControls();
+      } else {
+        createControls();
+      }
+      this.orbitControlMode = !this.orbitControlMode;
+    };
+
+    const changeModeButton = document.querySelector('.change-mode-btn');
+    if (changeModeButton == null) return;
+    changeModeButton.addEventListener('click', toggleControls);
 
     // set quanterion to get correct 3D orientation
     const setOrientationQuaternion = function (
@@ -91,16 +126,23 @@ export class VrThreeService {
 
       setOrientationQuaternion(quaternion, alpha, beta, gamma, orient);
 
-      // Apply the quaternion to your camera or object
-      camera.quaternion.copy(quaternion);
+      // Apply the quaternion
+      if (!this.orbitControlMode) {
+        camera.quaternion.copy(quaternion);
+      }
     });
 
-    function animate() {
+    const animate = () => {
       // request the next frame of the animation
       requestAnimationFrame(animate);
 
+      if (this.orbitControlMode) {
+        if (this.controls == null) return;
+        this.controls.update();
+      }
+
       renderer.render(scene, camera);
-    }
+    };
 
     animate();
 
