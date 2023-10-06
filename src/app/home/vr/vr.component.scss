@@ -47,3 +47,23 @@
   justify-content: center;
   gap: 1rem;
 }
+
+.control-info {
+  position: fixed;
+  bottom: 1rem;
+  right: 50%;
+  transform: translateX(50%);
+  text-align: center;
+  background-color: #35324ae2;
+  backdrop-filter: blur(10px);
+  border-radius: 5px;
+  color: #ccd6f6;
+  font-size: 1.5rem;
+  padding: 0.5rem 1rem;
+
+  @media (max-width: 600px) {
+    width: calc(100% - 2rem);
+    font-size: 1.2rem;
+    box-sizing: border-box;
+  }
+}
