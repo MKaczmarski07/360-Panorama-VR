@@ -2,10 +2,15 @@
   <h1>Immersive Van Gogh Painting</h1>
   <h2>Experience the art like never before</h2>
   <div class="button-container">
-    <button class="btn" routerLink="/vr">START</button>
-  </div>
-  <!-- <div class="info-container">
-    <div>
+    <button class="btn" routerLink="/vr">Use Default</button>
+    <input
+      type="file"
+      (change)="fileUploadService.onFileSelected($event)"
+      accept="image/*"
+      id="fileUpload"
+      hidden
+    />
+    <label for="fileUpload" class="btn file-upload-btn">
       <svg
         fill="none"
         stroke="currentColor"
@@ -17,18 +22,10 @@
         <path
           stroke-linecap="round"
           stroke-linejoin="round"
-          d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+          d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z"
         ></path>
       </svg>
-    </div>
-    <p>
-      <span class="important">The VR Version</span> uses a gyroscope to move the
-      camera and
-      <span class="important"
-        >may not work on computers and some older mobile devices.</span
-      >
-      But don't worry! You can still explore painting using Mouse / Touch
-      Control verison.
-    </p>
-  </div> -->
+      Upload
+    </label>
+  </div>
 </div>

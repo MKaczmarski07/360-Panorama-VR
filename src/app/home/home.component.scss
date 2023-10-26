@@ -44,7 +44,7 @@
     .btn {
       margin-top: 1rem;
       padding: 0.5rem 1rem;
-      border: 1px solid #8892b0;
+      border: 2px solid #8892b0;
       border-radius: 5px;
       background: transparent;
       color: #ccd6f6;
@@ -55,6 +55,19 @@
       &:hover {
         background: #8892b0;
         color: #25233a;
+      }
+    }
+
+    .file-upload-btn {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.5rem;
+
+      svg {
+        width: 1.75rem;
+        height: 1.75rem;
       }
     }
   }

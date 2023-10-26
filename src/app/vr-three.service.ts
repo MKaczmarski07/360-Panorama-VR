@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { FileUploadService } from './services/file-upload.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class VrThreeService {
-  constructor() {}
+  constructor(private fileUploadService: FileUploadService) {}
 
   alphaOffset: number = 0;
   isLoading = true;
@@ -19,14 +20,24 @@ export class VrThreeService {
     const screenOrientation = window.orientation || 0;
     const loadingManager = new THREE.LoadingManager();
 
+    console.log(this.fileUploadService.selectedImageUrl);
+
     // load texture
     loadingManager.onLoad = () => {
       this.isLoading = false;
     };
     const textureLoader = new THREE.TextureLoader(loadingManager);
-    const texture = textureLoader.load(
+
+    // load default image
+    let texture = textureLoader.load(
       '../../assets/images/oil_painting_van_gogh_starry_night.webp'
     );
+
+    // if user uploaded an image, use that instead
+    texture =
+      this.fileUploadService.selectedImageUrl === null
+        ? texture
+        : textureLoader.load(this.fileUploadService.selectedImageUrl as string);
 
     // create a new Three.js renderer
     const renderer = new THREE.WebGLRenderer();
