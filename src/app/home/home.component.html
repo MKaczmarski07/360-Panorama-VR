@@ -1,15 +1,21 @@
 <div class="container dynamicHeight">
-  <h1>Immersive Van Gogh Painting</h1>
-  <h2>Experience the art like never before</h2>
-  <div class="button-container">
-    <button class="btn" routerLink="/vr">Use Default</button>
+  <div class="header">
+    <h1>360° VR Image Viewer</h1>
+    <h2>Click 'Launch' and use default image, or upload your own!</h2>
+  </div>
+  <div class="file-upload-container">
     <input
       type="file"
       (change)="fileUploadService.onFileSelected($event)"
-      accept="image/*"
+      accept="image/png, image/jpeg, image/jpg, image/webp, image/gif, image/jiff"
       id="fileUpload"
       hidden
     />
+    <div class="format-info">
+      <span>Supported formats:</span>
+      <span>png, jpeg, jpg, webp, gif, jiff</span>
+    </div>
+
     <label for="fileUpload" class="btn file-upload-btn">
       <svg
         fill="none"
@@ -27,5 +33,32 @@
       </svg>
       Upload
     </label>
+
+    <span class="file-name" *ngIf="fileUploadService.selectedImageName === null"
+      >You didn't upload any image yet
+    </span>
+    <span class="file-name" *ngIf="fileUploadService.selectedImageName !== null"
+      >{{
+        fileUploadService.selectedImageName
+      }}
+      AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    </span>
   </div>
+  <button class="btn" routerLink="/vr">
+    <svg
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"
+      ></path>
+    </svg>
+    Launch
+  </button>
 </div>

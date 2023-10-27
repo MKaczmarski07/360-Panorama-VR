@@ -1,3 +1,5 @@
+$ui-primary: #25233a;
+
 .sphere {
   position: fixed;
   top: 0;
@@ -9,7 +11,7 @@
 
 .btn {
   padding: 0.8rem;
-  background-color: #35324ae2;
+  background-color: $ui-primary;
   backdrop-filter: blur(10px);
   border-radius: 5px;
   color: #ccd6f6;
@@ -54,7 +56,7 @@
   right: 50%;
   transform: translateX(50%);
   text-align: center;
-  background-color: #35324ae2;
+  background-color: $ui-primary;
   backdrop-filter: blur(10px);
   border-radius: 5px;
   color: #ccd6f6;
