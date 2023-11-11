@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { VrThreeService } from 'src/app/vr-three.service';
-import { FullscreenService } from 'src/app/fullscreen.service';
+import { VrThreeService } from 'src/app/services/vr-three.service';
+import { FullscreenService } from 'src/app/services/fullscreen.service';
 import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({

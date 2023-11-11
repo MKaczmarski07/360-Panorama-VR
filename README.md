@@ -2,9 +2,11 @@
 
 Angular implementation of an interactive 360 panorama viewer, allowing for watching an illusion of the three-dimensional world, using eqirectangular image superimposed on the sphere. User can move the camera with mouse or finger as well as using gyroscpope sensor in mobile devices, getting VR-like experience.
 
+![presentation](./src/assets/images/presentation.gif)
+
 ## Official Website 🌐
 
-[vangogh.kaczmarski.dev](https://vangogh.kaczmarski.dev)
+[panorama.kaczmarski.dev](https://panorama.kaczmarski.dev)
 
 ## Technology Stack
 

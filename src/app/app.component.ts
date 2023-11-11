@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, NavigationStart, NavigationEnd } from '@angular/router';
-import { VrThreeService } from './vr-three.service';
+import { VrThreeService } from './services/vr-three.service';
 
 @Component({
   selector: 'app-root',
