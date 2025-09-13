@@ -2,7 +2,7 @@
 # About The Project
 The following project is an interactive eqirectangular image viewer, allowing for watching an illusion of the three-dimensional world. Users can move the camera manually or using gyroscpope sensor in mobile devices, getting VR-like experience.
 
-### Technolies Used
+### Technologies Used
 [![My Skills](https://skillicons.dev/icons?i=angular,typescript,threejs,sass)](https://skillicons.dev)
 
 ### Live Demo 
